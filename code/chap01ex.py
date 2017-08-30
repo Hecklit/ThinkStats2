@@ -13,13 +13,31 @@ import sys
 import nsfg
 import thinkstats2
 
+def ReadFemResp(dct_file='2002FemResp.dct', dat_file='2002FemResp.dat.gz'):
+    dct = thinkstats2.ReadStataDct(dct_file)
+    df = dct.ReadFixedWidth(dat_file, compression='gzip')
+    return df
 
 def main(script):
     """Tests the functions in this module.
 
     script: string script name
     """
+    femResp = ReadFemResp()
+    femPreg = nsfg.ReadFemPreg()
+    pregMap = nsfg.MakePregMap(femPreg)
+    pregancies = {};
+    print(femResp.pregnum.value_counts().sort_index())
+
+    for key, value in pregMap.items():
+        if len(value) in pregancies:
+            pregancies[len(value)] += 1
+        else:
+            pregancies[len(value)] = 1
+    
+    print(pregancies);
     print('%s: All tests passed.' % script)
+
 
 
 if __name__ == '__main__':

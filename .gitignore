@@ -56,3 +56,6 @@ docs/_build/
 *.eps
 *.png
 *~
+
+# My stuff
+code/data/
